@@ -1,0 +1,83 @@
+* {
+    margin:0%;
+}
+
+h1{
+    font-size: 70px;
+    padding: 0 0 20px 0;
+}
+
+.head{
+    text-align: center;
+}
+
+.chessboard{
+    text-align: center;
+    margin: 20px;
+}
+
+.row-0, .row-1, .row-2, .row-3, .row-4, .row-5, .row-6, .row-7, .row-8, .row-9, .row-10{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.block{
+    width: 50px;
+    height: 50px;
+    padding: 0;
+    margin: 0;
+    background-color: aliceblue;
+}
+
+.block:hover{
+    background-image: url(/images/queen.svg);
+}
+
+.Reset{
+    border-radius: 20px;
+    text-align: center;
+    height: 40px;
+    width: 100px;
+    font-size: large;
+    background-color: rgb(42, 165, 99);
+    position: sticky;
+    color: black;
+}
+
+.Reset:hover{
+    background-color: blue;
+    color: azure;
+}
+
+.input{
+    margin: 0 30px 20px 30px;
+    padding: 0;
+    text-align: center;
+}
+
+.Submit{
+    border-radius: 20px;
+    text-align: center;
+    height: 30px;
+    width: 80px;
+    font-size: large;
+    background-color: rgb(42, 165, 99);
+    color: black;
+}
+
+input[type=text]{
+    height: 30px;
+    width: 200px;
+    border: 1px solid #ccc;
+    border-radius: 20px;
+    resize: none;
+    text-align: center;
+}
+
+
+
+
+
+
+
