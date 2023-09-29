@@ -28,27 +28,17 @@ function generateChessboard(boardId, Size) {
 function calculate(Size, X, Y) {
     // init some variable
     const size = Size;
-    // Khai báo và khởi tạo mảng hai chiều 8x8 với giá trị ban đầu là 0
-    function initArray(queenArray) {
-        for (let i = 0; i < size; i++) {
-            let row = [];
-            for (let j = 0; j < size; j++) {
-                row.push(0);
-            }
-            queenArray.push(row);
-        }
-    }
-
-    console.log(size);
     const MaxN = 1 + 1e5;
     const mark = new Array(3).fill(null).map(() => new Array(MaxN).fill(false));
     const res = [];
     const solutions = [];
-
-    function Try(row) {
+    async function Try(row) {
         if (row === size) {
             const solution = [...res];
             solutions.push(solution);
+            if(solution[X] == Y){
+                await printChessboardAsync(solution);
+            }
             return;
         }
         for (let col = 0; col < size; ++col) {
@@ -59,7 +49,7 @@ function calculate(Size, X, Y) {
             mark[1][mainDiagonal] = true;
             mark[2][subDiagonal] = true;
             res.push(col);
-            Try(row + 1);
+            await Try(row + 1);
             res.pop();
             mark[0][col] = false;
             mark[1][mainDiagonal] = false;
@@ -67,39 +57,34 @@ function calculate(Size, X, Y) {
         }
     }
     Try(0);
+    //In ra tất cả các đáp án
+    // if(solutions.length == 0){
+    //     alert("Khong co ket qua nao hop le!!")
+    //     resetCal();
+    //     return;
+    // }
     console.log(solutions.length);
-    // In ra tất cả các đáp án
-    if(solutions.length == 0){
-        alert("Khong co ket qua nao hop le!!")
-        resetCal();
-        return;
+
+    async function printChessboardAsync(solution) {
+        return new Promise((resolve) => {
+            setTimeout(() => {
+                printChessboard(solution);
+                resolve();
+            }, 0);
+        });
     }
 
-    let count = 15;
-    for (let i = 0; i < solutions.length; i++) {
-        const solution = solutions[i];
-        const queenarray = [];
-        initArray(queenarray);
-        for (let j = 0; j < size; j++) {
-            queenarray[j][solution[j]] = 1;
+    function printChessboard(solution){
+        dem += 1;
+        if (dem > 1) {
+            generateChessboard(`chessboard-${dem}`, size);
         }
-        if (queenarray[X][Y] === 1 && count >= 0) {
-            count--;
-            dem += 1;
-            if (dem > 1) {
-                generateChessboard(`chessboard-${dem}`, size);
-            }
-            const chessboardBlocks = document.querySelectorAll(`.chessboard-${dem} button`);
-            for (let k = 0; k < size; k++) {
-                for (let l = 0; l < size; l++) {
-                    if (queenarray[k][l] == 1) {
-                        const id = k.toString() + l.toString();
-                        const clickedBlock = Array.from(chessboardBlocks).find(block => block.id == id);
-                        if (clickedBlock) {
-                            clickedBlock.style.backgroundImage = 'url(/images/queen.svg)';
-                        }
-                    }
-                }
+        const chessboardBlocks = document.querySelectorAll(`.chessboard-${dem} button`);
+        for (let i = 0; i < size; i++) {
+            const id = i.toString() + solution[i].toString();
+            const clickedBlock = Array.from(chessboardBlocks).find(block => block.id == id);
+            if (clickedBlock) {
+                clickedBlock.style.backgroundImage = 'url(/images/queen.svg)';
             }
         }
     }
@@ -109,7 +94,7 @@ function submitSize(){
     var sizeInput = document.getElementById("size").value;
     range = parseInt(sizeInput);
     if(range >= 16 || range <=0){
-        alert("Invalid inpue value!!");
+        alert("Invalid inpue value!! 0r Can't caculate this number");
         resetCal();
         return;
     }
@@ -134,9 +119,7 @@ function resetCal(){
 }
 
 
-window.addEventListener('scroll',(event) => {
-    console.log('Scrolling...');
-});
+
 
 
 
